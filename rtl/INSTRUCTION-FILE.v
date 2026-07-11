@@ -1,10 +1,10 @@
 module instruction_memory(addr, instr);
-  input [31:0] addr;     // address from PC
-  output [31:0] instr;   // instruction output
-  reg [31:0] mem[0:255]; // ROM memory
-  assign instr = mem[addr[9:2]]; // word aligned access
+  input [31:0] addr;     
+  output [31:0] instr;   
+  reg [31:0] mem[0:255]; 
+  assign instr = mem[addr[9:2]]; 
   initial begin
-//    $readmemh("program.mem", mem);
+
     mem[0] = 32'h00500093;   // I-Type  : addi x1, x0, 5
     mem[1] = 32'h00500113;   // I-Type  : addi x2, x0, 5
    mem[2] = 32'h002081B3;   // R-Type  : add  x3, x1, x2
