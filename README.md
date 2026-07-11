@@ -39,15 +39,15 @@ PC_next = (Branch & Zero) ? (PC_current + Immediate) : (PC_current + 4)
 
 | Module | File | Description |
 |---|---|---|
-| Program Counter | `rtl/PC.v` | Sequential PC update on clock edge, synchronous reset |
-| Instruction Memory | `rtl/INSTRUCTION-FILE.v` | 256-word ROM, word-aligned instruction fetch |
-| Register File | `rtl/REGISTER-FILE.v` | 32 x 32-bit registers, combinational read, synchronous write |
-| Immediate Generator | `rtl/IMMEDIATE-GEN.v` | Sign-extends and formats immediates for I/S/B instruction types |
-| Control Unit | `rtl/CONTROL-UNIT.v` | Decodes opcode into datapath control signals |
-| ALU Control | `rtl/ALU-CTRL.v` | Refines ALU operation using ALUOp + funct3 + funct7 |
-| ALU | `rtl/ALU.v` | Performs ADD/SUB/AND/OR, generates Zero flag for branch comparison |
-| Data Memory | `rtl/DATA-MEMORY.v` | 256-word data memory, word-aligned read/write |
-| Top-Level Processor | `rtl/TOP-LEVEL.v` | Integrates all modules into the complete datapath |
+| Program Counter | [`rtl/PC.v`](rtl/PC.v) | Sequential PC update on clock edge, synchronous reset |
+| Instruction Memory | [`rtl/INSTRUCTION-FILE.v`](rtl/INSTRUCTION-FILE.v) | 256-word ROM, word-aligned instruction fetch |
+| Register File | [`rtl/REGISTER-FILE.v`](rtl/REGISTER-FILE.v) | 32 x 32-bit registers, combinational read, synchronous write |
+| Immediate Generator | [`rtl/IMMEDIATE-GEN.v`](rtl/IMMEDIATE-GEN.v) | Sign-extends and formats immediates for I/S/B instruction types |
+| Control Unit | [`rtl/CONTROL-UNIT.v`](rtl/CONTROL-UNIT.v) | Decodes opcode into datapath control signals |
+| ALU Control | [`rtl/ALU-CTRL.v`](rtl/ALU-CTRL.v) | Refines ALU operation using ALUOp + funct3 + funct7 |
+| ALU | [`rtl/ALU.v`](rtl/ALU.v) | Performs ADD/SUB/AND/OR, generates Zero flag for branch comparison |
+| Data Memory | [`rtl/DATA-MEMORY.v`](rtl/DATA-MEMORY.v) | 256-word data memory, word-aligned read/write |
+| Top-Level Processor | [`rtl/TOP-LEVEL.v`](rtl/TOP-LEVEL.v) | Integrates all modules into the complete datapath |
 
 ## Control Signal Mapping
 
@@ -61,7 +61,7 @@ PC_next = (Branch & Zero) ? (PC_current + Immediate) : (PC_current + 4)
 
 ## Verification
 
-The design was verified in Xilinx Vivado's XSim simulator using a self-checking testbench (`testbench/tb-top.v`) that applies a reset and runs a 9-instruction test program for 300 simulation time units.
+The design was verified in Xilinx Vivado's XSim simulator using a self-checking testbench ([`testbench/tb-top.v`](testbench/tb-top.v)) that applies a reset and runs a 9-instruction test program for 300 simulation time units.
 
 **Test program executed:**
 ```
@@ -76,19 +76,34 @@ The design was verified in Xilinx Vivado's XSim simulator using a self-checking 
 9. beq  x4, x3, +4     →  x4 == x3 → branch taken
 ```
 
-Every instruction's execution was verified instruction-by-instruction against the expected register/memory state. Waveform captures for each instruction are in `/waveforms`:
+Every instruction's execution was verified instruction-by-instruction against the expected register/memory state. Waveform captures for each instruction:
 
-| Instruction | Waveform |
-|---|---|
-| ADDI x1, x0, 5 | `waveforms/instr1_addi_x1.png` |
-| ADDI x2, x0, 5 | `waveforms/instr2_addi_x2.png` |
-| ADD x3, x1, x2 | `waveforms/instr3_add_x3.png` |
-| SUB x8, x2, x1 | `waveforms/instr4_sub_x8.png` |
-| AND x6, x1, x2 | `waveforms/instr5_and_x6.png` |
-| OR x7, x1, x2 | `waveforms/instr6_or_x7.png` |
-| SW x3, 0(x0) | `waveforms/instr7_sw.png` |
-| LW x4, 0(x0) | `waveforms/instr8_lw.png` |
-| BEQ x4, x3, +4 | `waveforms/instr9_beq.png` |
+**1. ADDI x1, x0, 5**
+![ADDI x1](waveforms/instr1_addi_x1.png)
+
+**2. ADDI x2, x0, 5**
+![ADDI x2](waveforms/instr2_addi_x2.png)
+
+**3. ADD x3, x1, x2**
+![ADD x3](waveforms/instr3_add_x3.png)
+
+**4. SUB x8, x2, x1**
+![SUB x8](waveforms/instr4_sub_x8.png)
+
+**5. AND x6, x1, x2**
+![AND x6](waveforms/instr5_and_x6.png)
+
+**6. OR x7, x1, x2**
+![OR x7](waveforms/instr6_or_x7.png)
+
+**7. SW x3, 0(x0)**
+![SW x3](waveforms/instr7_sw.png)
+
+**8. LW x4, 0(x0)**
+![LW x4](waveforms/instr8_lw.png)
+
+**9. BEQ x4, x3, +4**
+![BEQ x4](waveforms/instr9_beq.png)
 
 ## Repository Structure
 
